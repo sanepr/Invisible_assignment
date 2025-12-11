@@ -1,5 +1,5 @@
 """User schemas."""
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -20,14 +20,13 @@ class UserLogin(BaseModel):
 
 class UserResponse(BaseModel):
     """Schema for user response."""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     username: str
     email: str
     full_name: Optional[str] = None
     created_at: datetime
-    
-    class Config:
-        from_attributes = True
 
 
 class UserUpdate(BaseModel):

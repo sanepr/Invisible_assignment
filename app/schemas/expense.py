@@ -1,5 +1,5 @@
 """Expense schemas."""
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, Dict
 from datetime import datetime
 
@@ -13,25 +13,23 @@ class ExpenseCreate(BaseModel):
 
 class ExpenseResponse(BaseModel):
     """Schema for expense response."""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     group_id: int
     paid_by_user_id: int
     amount: float
     description: Optional[str] = None
     created_at: datetime
-    
-    class Config:
-        from_attributes = True
 
 
 class BalanceSummary(BaseModel):
     """Schema for balance summary response."""
+    model_config = ConfigDict(from_attributes=True)
+    
     user_id: int
     username: str
     balance: float  # Positive means owed to user, negative means user owes
-    
-    class Config:
-        from_attributes = True
 
 
 class GroupBalanceResponse(BaseModel):

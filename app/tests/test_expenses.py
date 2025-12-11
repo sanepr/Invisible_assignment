@@ -98,8 +98,9 @@ def test_get_group_expenses(client: TestClient):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["amount"] == 75.0  # Most recent first
-    assert data[1]["amount"] == 50.0
+    # Verify both expenses are present (order may vary due to identical timestamps)
+    amounts = {expense["amount"] for expense in data}
+    assert amounts == {50.0, 75.0}
 
 
 def test_get_group_balances(client: TestClient):

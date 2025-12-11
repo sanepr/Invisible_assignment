@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from app.database import get_db
-from app.schemas.group import GroupCreate, GroupResponse, AddUserToGroup, GroupMember
+from app.schemas.group import GroupCreate, GroupResponse, GroupDetailResponse, AddUserToGroup, GroupMember
 from app.models.group import Group, UserGroup
 from app.models.user import User
 from app.utils.auth import get_current_user
@@ -48,7 +48,7 @@ async def list_user_groups(
     return user_groups
 
 
-@router.get("/{group_id}", response_model=GroupResponse)
+@router.get("/{group_id}", response_model=GroupDetailResponse)
 async def get_group(
     group_id: int,
     current_user: User = Depends(get_current_user),
@@ -90,7 +90,7 @@ async def get_group(
     ]
     
     # Create response with members
-    group_response = GroupResponse(
+    group_response = GroupDetailResponse(
         id=group.id,
         name=group.name,
         description=group.description,

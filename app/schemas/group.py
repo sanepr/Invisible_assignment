@@ -1,5 +1,5 @@
 """Group schemas."""
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -12,24 +12,32 @@ class GroupCreate(BaseModel):
 
 class GroupMember(BaseModel):
     """Schema for group member information."""
+    model_config = ConfigDict(from_attributes=True)
+    
     user_id: int
     username: str
     joined_at: datetime
-    
-    class Config:
-        from_attributes = True
 
 
 class GroupResponse(BaseModel):
     """Schema for group response."""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     name: str
     description: Optional[str] = None
     created_at: datetime
-    members: Optional[List[GroupMember]] = None
+
+
+class GroupDetailResponse(BaseModel):
+    """Schema for detailed group response with members."""
+    model_config = ConfigDict(from_attributes=True)
     
-    class Config:
-        from_attributes = True
+    id: int
+    name: str
+    description: Optional[str] = None
+    created_at: datetime
+    members: List[GroupMember]
 
 
 class AddUserToGroup(BaseModel):
