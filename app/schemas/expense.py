@@ -1,6 +1,6 @@
 """Expense schemas."""
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 from datetime import datetime
 
 
@@ -36,4 +36,4 @@ class GroupBalanceResponse(BaseModel):
     """Schema for group balance summary."""
     group_id: int
     group_name: str
-    balances: list[BalanceSummary]
+    balances: List[BalanceSummary]

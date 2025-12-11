@@ -1,10 +1,12 @@
 """Application configuration module."""
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
+    
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
     
     # Database
     DATABASE_URL: str = "sqlite:///./expense_settlement.db"
@@ -17,10 +19,6 @@ class Settings(BaseSettings):
     # Application
     APP_NAME: str = "Expense Settlement API"
     DEBUG: bool = True
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
 
 settings = Settings()
