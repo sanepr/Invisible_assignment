@@ -78,7 +78,7 @@ const GroupDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="mb-6">
         <button
           onClick={() => navigate('/dashboard')}
