@@ -488,7 +488,7 @@ This project demonstrates effective human-AI collaboration in software engineeri
 - "Generate examples for Terraform plan/test workflow."
 
 **AI Contributions:**
-- Produces fixtures for test databases and FastAPI TestClient.
+- Produced fixtures for test databases and FastAPI TestClient.
 - Example tests for endpoint status codes, schema enforcement, and security boundaries.
 - Insights on mocking dependencies and JWT tokens.
 
