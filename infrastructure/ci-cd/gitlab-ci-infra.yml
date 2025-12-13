@@ -1,0 +1,117 @@
+# GitLab CI/CD Pipeline for Infrastructure Deployment
+# Rename to .gitlab-ci.yml and place in infrastructure/ directory
+
+variables:
+  TF_VERSION: "1.6.0"
+  TF_ROOT: "${CI_PROJECT_DIR}/infrastructure/terraform"
+
+stages:
+  - validate
+  - plan
+  - apply
+  - destroy
+
+.terraform_base:
+  image:
+    name: hashicorp/terraform:$TF_VERSION
+    entrypoint: [""]
+  before_script:
+    - cd ${TF_ROOT}/environments/${ENVIRONMENT}
+    - terraform init
+
+# Development Environment
+validate:dev:
+  extends: .terraform_base
+  stage: validate
+  variables:
+    ENVIRONMENT: "dev"
+  script:
+    - terraform validate
+    - terraform fmt -check
+  only:
+    - merge_requests
+    - develop
+
+plan:dev:
+  extends: .terraform_base
+  stage: plan
+  variables:
+    ENVIRONMENT: "dev"
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - ${TF_ROOT}/environments/dev/tfplan
+    expire_in: 1 week
+  only:
+    - develop
+
+apply:dev:
+  extends: .terraform_base
+  stage: apply
+  variables:
+    ENVIRONMENT: "dev"
+  script:
+    - terraform apply -auto-approve tfplan
+  dependencies:
+    - plan:dev
+  only:
+    - develop
+  when: manual
+
+# Production Environment
+validate:prod:
+  extends: .terraform_base
+  stage: validate
+  variables:
+    ENVIRONMENT: "prod"
+  script:
+    - terraform validate
+    - terraform fmt -check
+  only:
+    - merge_requests
+    - main
+
+plan:prod:
+  extends: .terraform_base
+  stage: plan
+  variables:
+    ENVIRONMENT: "prod"
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - ${TF_ROOT}/environments/prod/tfplan
+    expire_in: 1 week
+  only:
+    - main
+
+apply:prod:
+  extends: .terraform_base
+  stage: apply
+  variables:
+    ENVIRONMENT: "prod"
+  script:
+    - terraform apply -auto-approve tfplan
+  dependencies:
+    - plan:prod
+  only:
+    - main
+  when: manual
+  environment:
+    name: production
+    on_stop: destroy:prod
+
+destroy:prod:
+  extends: .terraform_base
+  stage: destroy
+  variables:
+    ENVIRONMENT: "prod"
+  script:
+    - terraform destroy -auto-approve
+  only:
+    - main
+  when: manual
+  environment:
+    name: production
+    action: stop
