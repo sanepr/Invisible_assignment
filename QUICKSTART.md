@@ -190,6 +190,14 @@ rm *.db
 uvicorn app.main:app --reload
 ```
 
+**Issue**: bcrypt/passlib errors during signup/login
+```bash
+# Solution: Reinstall dependencies to ensure bcrypt is properly installed
+pip install --upgrade --force-reinstall bcrypt passlib
+# Or reinstall all requirements
+pip install -r requirements.txt --force-reinstall
+```
+
 ### Frontend Issues
 
 **Issue**: `npm install` fails with Cypress
