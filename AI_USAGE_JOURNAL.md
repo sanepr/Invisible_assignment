@@ -431,3 +431,110 @@ GitHub Copilot Workspace proved highly effective for this full-stack development
 - 9 git commits with clear history
 
 This project demonstrates effective human-AI collaboration in software engineering, where AI handles code generation and architecture while humans provide guidance, testing, and environment-specific configuration.
+
+---
+
+## AI-Assisted Development Journal
+
+### 1. Architecture & Initial Planning
+
+**Prompts Used:**
+- "Generate a project structure for a FastAPI backend that supports group expense splitting, user authentication, and REST endpoints."
+- "What are best practices for structuring a Python FastAPI project that will scale and support a Typescript client library?"
+- "Suggest a database schema for users, groups, group memberships, and shared expenses, supporting efficient queries for balances per member."
+- "How would you secure sensitive configuration/secrets in a cloud-native deployment using Terraform?"
+
+**AI Contributions:**
+- Generated a modular folder structure (splitting routers, models, config, tests).
+- Outlined core API endpoints based on clean architecture.
+- Proposed an ER diagram (later formalized manually) for the DB.
+- Provided example Terraform resources for PostgreSQL and secret management with AWS Secrets Manager.
+
+**Challenges and Manual Intervention:**
+- AI-generated diagrams required manual formalization with draw.io for clarity.
+- Some cloud resource recommendations (e.g., IAM roles) needed adjustment for our VPC/networking.
+- AI sometimes suggested redundant separation of routers/models; made architectural tradeoffs based on team norms.
+
+---
+
+### 2. Code Implementation Phase
+
+**Prompts Used:**
+- "Generate a FastAPI signup endpoint using Pydantic for request validation and SQLAlchemy for persistence."
+- "How do I implement JWT authentication in FastAPI, and what are the standard security practices?"
+- "Provide a reusable SQLAlchemy model for a group expense record, supporting metadata and references to user/group."
+- "Draft a Typescript client-library that wraps basic REST calls for authentication, group management, and expenses, with type safety."
+- "Provide sample code for integrating the client library into a React frontend (Typescript)."
+
+**AI Contributions:**
+- Large boilerplate sections generated for routers, request models, and SQLAlchemy setup.
+- Sample JWT logic produced (with a warning to store secrets securely).
+- Client library stubs created: fetch, error handling, and DTO interfaces.
+
+**Challenges and Manual Intervention:**
+- AI sometimes omitted edge-case validation (e.g., checking that expense members exist in group).
+- Pydantic model examples occasionally mismatched SQLAlchemy conventions—required manual edits.
+- Fine-tuned REST error handling and status codes for consistency.
+- Manual review of client-library types to ensure conformance with backend OpenAPI schema.
+
+---
+
+### 3. Code Quality & Testing
+
+**Prompts Used:**
+- "Write pytest unit tests for FastAPI endpoints, including signup, login, add group, add expense, and balances."
+- "Suggest fixtures for test isolation using SQLAlchemy and FastAPI."
+- "How do I mock authentication in FastAPI for tests?"
+- "Generate examples for Terraform plan/test workflow."
+
+**AI Contributions:**
+- Produces fixtures for test databases and FastAPI TestClient.
+- Example tests for endpoint status codes, schema enforcement, and security boundaries.
+- Insights on mocking dependencies and JWT tokens.
+
+**Challenges and Manual Intervention:**
+- Generated tests covered only happy paths. Edge cases, integration cross-coverage, and negative tests were manually added.
+- Some AI fixtures/configs for DB setup were out of date with latest SQLAlchemy versions—fixed with manual research.
+- Manual linting and formatting for test files (black/isort).
+
+---
+
+### 4. Documentation & Observability
+
+**Prompts Used:**
+- "Outline a comprehensive README for onboarding to this backend."
+- "Draft API documentation using FastAPI's OpenAPI and supplement with examples."
+- "How can I instrument FastAPI for observability? Suggest code samples for Prometheus and logging."
+- "Suggest security considerations section for a payment-sensitive backend."
+
+**AI Contributions:**
+- Quick-start scripts and tips for .env and local DB via Docker Compose.
+- Security note sections with recommended env var patterns (no hardcoded secrets).
+- Observability setup for metrics and log handlers.
+
+**Manual Work:**
+- Final proofing, editing, and addition of explanatory diagrams.
+- Expanded security documentation to meet staff engineer standards (SOC2 reference, threat model).
+
+---
+
+### 5. Key Challenges & AI Assistance
+
+- **Challenge:** Aligning AI-generated boilerplate with strict architectural standards.
+  - *AI Impact:* Sped up first draft, but deep manual reviews were required for maintainability.
+- **Challenge:** Complex relationship management between expenses and group members.
+  - *AI Impact:* Provided foundational schema and sample queries, but optimization and transactional safety required manual intervention.
+- **Challenge:** Ensuring that autogenerated testing code covered critical and corner cases.
+  - *AI Impact:* Gave structure and base test cases, saving time, but required augmentation for true coverage.
+
+---
+
+## Tasks with Manual Intervention
+
+- Refactoring auto-generated code for clarity and testability.
+- Enforcing linting/static type checks across all code.
+- Ensuring all secrets and sensitive config are properly abstracted from codebase.
+- Writing advanced tests for security and rate-limiting scenarios.
+- Adapting infrastructure scripts to organization-specific Terraform modules.
+
+---
