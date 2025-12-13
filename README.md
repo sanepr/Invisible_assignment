@@ -1,6 +1,8 @@
-# Expense Settlement API
+# Expense Settlement Application
 
-A FastAPI-based REST API for managing split expenses between group members with JWT authentication.
+A full-stack application for managing split expenses between group members, consisting of a FastAPI backend and a React TypeScript frontend.
+
+> **Quick Start**: New to the project? Check out the [QUICKSTART.md](QUICKSTART.md) guide to get up and running in 5 minutes!
 
 ## Features
 
@@ -22,6 +24,7 @@ A FastAPI-based REST API for managing split expenses between group members with 
 
 ## Tech Stack
 
+### Backend
 - **FastAPI**: Modern, fast web framework for building APIs
 - **SQLAlchemy**: SQL toolkit and ORM
 - **Pydantic**: Data validation using Python type annotations
@@ -29,41 +32,45 @@ A FastAPI-based REST API for managing split expenses between group members with 
 - **SQLite**: Default database (configurable to PostgreSQL, MySQL, etc.)
 - **pytest**: Testing framework
 
+### Frontend
+- **React 19**: UI Framework
+- **TypeScript**: Type safety
+- **Vite**: Build tool and dev server
+- **React Router**: Client-side routing
+- **Axios**: HTTP client for API communication
+- **Tailwind CSS**: Utility-first CSS framework
+- **Vitest**: Unit testing
+- **Cypress**: E2E testing
+
 ## Project Structure
 
 ```
 .
-├── app/
+├── app/                        # Backend (FastAPI)
 │   ├── __init__.py
 │   ├── main.py                 # FastAPI application entry point
 │   ├── config.py               # Configuration settings
 │   ├── database.py             # Database connection and session
 │   ├── models/                 # SQLAlchemy models
-│   │   ├── __init__.py
-│   │   ├── user.py            # User model
-│   │   ├── group.py           # Group and UserGroup models
-│   │   └── expense.py         # Expense model
 │   ├── schemas/                # Pydantic schemas
-│   │   ├── __init__.py
-│   │   ├── user.py            # User schemas
-│   │   ├── group.py           # Group schemas
-│   │   └── expense.py         # Expense schemas
 │   ├── routes/                 # API routes
-│   │   ├── __init__.py
-│   │   ├── auth.py            # Authentication endpoints
-│   │   ├── users.py           # User profile endpoints
-│   │   ├── groups.py          # Group management endpoints
-│   │   └── expenses.py        # Expense management endpoints
 │   ├── utils/                  # Utility modules
-│   │   ├── __init__.py
-│   │   └── auth.py            # Authentication utilities
-│   └── tests/                  # Test suite
-│       ├── __init__.py
-│       ├── conftest.py        # Test configuration
-│       ├── test_auth.py       # Auth endpoint tests
-│       ├── test_users.py      # User endpoint tests
-│       ├── test_groups.py     # Group endpoint tests
-│       └── test_expenses.py   # Expense endpoint tests
+│   └── tests/                  # Backend test suite
+├── frontend/                   # Frontend (React + TypeScript)
+│   ├── src/
+│   │   ├── api/               # API client library
+│   │   ├── components/        # React components
+│   │   ├── contexts/          # React contexts
+│   │   ├── pages/             # Page components
+│   │   ├── types/             # TypeScript type definitions
+│   │   ├── test/              # Unit tests
+│   │   ├── App.tsx            # Main App component
+│   │   └── main.tsx           # Entry point
+│   ├── cypress/               # E2E tests
+│   ├── public/                # Static assets
+│   ├── package.json           # Frontend dependencies
+│   ├── vite.config.ts         # Vite configuration
+│   └── README.md              # Frontend documentation
 ├── requirements.txt            # Python dependencies
 ├── .env.example               # Environment variable template
 ├── .gitignore                 # Git ignore file
@@ -75,9 +82,11 @@ A FastAPI-based REST API for managing split expenses between group members with 
 ### Prerequisites
 
 - Python 3.9 or higher
+- Node.js 18 or higher
 - pip (Python package installer)
+- npm or yarn
 
-### Setup
+### Backend Setup
 
 1. Clone the repository:
 ```bash
@@ -104,9 +113,29 @@ cp .env.example .env
 
 5. The database will be automatically created when you first run the application.
 
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Configure environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your API URL if needed (default: http://localhost:8000)
+```
+
 ## Running the Application
 
-Start the development server:
+### Start Backend
+
+From the root directory:
 
 ```bash
 uvicorn app.main:app --reload
@@ -116,6 +145,18 @@ The API will be available at:
 - API Base URL: `http://localhost:8000`
 - Interactive API Docs (Swagger UI): `http://localhost:8000/docs`
 - Alternative API Docs (ReDoc): `http://localhost:8000/redoc`
+
+### Start Frontend
+
+From the frontend directory:
+
+```bash
+cd frontend
+npm run dev
+```
+
+The application will be available at:
+- Frontend URL: `http://localhost:5173`
 
 ## API Endpoints
 
@@ -210,7 +251,9 @@ curl -X GET "http://localhost:8000/api/expenses/group/1/balances" \
 
 ## Running Tests
 
-Run all tests:
+### Backend Tests
+
+Run all backend tests:
 
 ```bash
 pytest
@@ -226,6 +269,29 @@ Run with coverage:
 
 ```bash
 pytest --cov=app --cov-report=html
+```
+
+### Frontend Tests
+
+Run unit tests:
+
+```bash
+cd frontend
+npm test
+```
+
+Run E2E tests (requires both backend and frontend to be running):
+
+```bash
+cd frontend
+npm run cypress
+```
+
+Run E2E tests in headless mode:
+
+```bash
+cd frontend
+npm run cypress:headless
 ```
 
 ## Configuration

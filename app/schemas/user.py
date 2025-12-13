@@ -8,7 +8,7 @@ class UserCreate(BaseModel):
     """Schema for user registration."""
     username: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
-    password: str = Field(..., min_length=6)
+    password: str = Field(..., min_length=6, max_length=72)
     full_name: Optional[str] = None
 
 
@@ -33,7 +33,7 @@ class UserUpdate(BaseModel):
     """Schema for user profile update."""
     email: Optional[EmailStr] = None
     full_name: Optional[str] = None
-    password: Optional[str] = Field(None, min_length=6)
+    password: Optional[str] = Field(None, min_length=6, max_length=72)
 
 
 class Token(BaseModel):
