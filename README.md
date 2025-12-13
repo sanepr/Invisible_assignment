@@ -2,6 +2,8 @@
 
 A full-stack application for managing split expenses between group members, consisting of a FastAPI backend and a React TypeScript frontend.
 
+> **Quick Start**: New to the project? Check out the [QUICKSTART.md](QUICKSTART.md) guide to get up and running in 5 minutes!
+
 ## Features
 
 - **User Management**

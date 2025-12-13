@@ -99,7 +99,13 @@ npm run test:coverage
 
 ### E2E Tests
 
-Run Cypress tests interactively:
+**Note**: Cypress needs to be installed separately due to its binary dependencies:
+
+```bash
+npm install --save-dev cypress
+```
+
+After installation, run Cypress tests interactively:
 ```bash
 npm run cypress
 ```
@@ -109,7 +115,7 @@ Run Cypress tests in headless mode:
 npm run cypress:headless
 ```
 
-**Note**: Make sure both the backend API and frontend dev server are running before executing E2E tests.
+**Important**: Make sure both the backend API and frontend dev server are running before executing E2E tests.
 
 ## Project Structure
 
